@@ -68,7 +68,24 @@ Le premier point que nous aborderons sera l'aspect analytique du modèle (Qu'est
 \section{Chapitre 1}
 \subsection{Du graphe aux arbres de recherche}
 
+Pour pouvoir analyser un système et pouvoir vérifier son efficacité, il est utile de le dériver en un graphe. Afin d'imager nos propos, reprenons l'exemple de la voie ferrée :\\ imaginons donc une voie ferrée sur laquelle aucun train ne circule. La voie est donc vide. On peut constate là un premier état de notre voie ferrée, l'état \textbf{vide}. Lorsque notre voie est vide, il se peut qu'à tout moment, un train soit \textbf{en approche}, et qu'on doive commencer à fermer les portes. Après quoi le train passera \textbf{sur} le passage à niveau pour ensuite repartir et laisser la voie \textbf{vide}.\\
 
+\noindent Un tel système peut être représenté sous cette forme :  
+
+\includegraphics[scale=1]{graphe.png}
+
+\noindent Avec x étant une variable d'état pour déterminer l'état des portes.\\
+
+Nous avons donc ici un graphe infini puisque celui-ci est cyclique. lorsqu'on transformera ce graphe en un arbre de recherche, nous aurons donc également un arbre infini. Faisons le travail de transformer ce graphe en un arbre : 
+\begin{center}
+\includegraphics[scale=0.7]{kripke.png}
+\end{center}
+
+\noindent Les "..." symbolisent le fait le l'arbre est un arbre infini.\\
+
+\noindent C'est maintenant grâce à de telles structures que nous allons pouvoir analyser notre système et vérifier que celui-ci soit infaillible.
+
+ 
 
 
 
