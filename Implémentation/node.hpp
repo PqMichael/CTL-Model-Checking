@@ -5,7 +5,7 @@
 class Node
 {
 private:
-	int tab[2]; //Ne sert à rien pour le moment. Un vecteur de formule CTL sera surement utilisé.
+	int tab[2];
 	Node* m_father;
 	std::vector<Node*> m_son;
 public:

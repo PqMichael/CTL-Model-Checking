@@ -18,12 +18,3 @@ void Node::addSon(Node* son){
 	this->m_son.push_back(son);
 }
 
-int main(){
-	std::cout<<"coucou"<<std::endl;
-	Node x = Node(5, 6, nullptr);
-	std::cout<<x.get_son()[0]<<std::endl;
-	Node y = Node(1, 2, &x);
-	std::cout<<x.get_son()[0]<<std::endl;
-	std::cout<<y.get_father()<<std::endl;
-	return 0;
-}
