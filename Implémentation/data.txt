@@ -1,0 +1,5 @@
+V  = {ouvert,se ferme,fermé}
+S  = {vide,approche,occupé}
+S0 = {vide}
+I  = {vide:ouvert,approche:se ferme,occupé:fermé}
+R  = {vide:vide-approche,approche:approche-occupé,occupé:occupé-vide}

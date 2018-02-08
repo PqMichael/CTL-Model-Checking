@@ -1,21 +1,37 @@
 #include "tree.hpp"
 #include "node.hpp"
+#include "kripke.hpp"
 #include <iostream>
+#include <string>
 
 extern int N_NODE;
+int SIZEOFTREE = 3;
 
-Tree::Tree(){
-	m_root = new Node(un, false, false, nullptr);
+Tree::Tree(Kripke* K){
+	std::string state = K->getS0(0);
+	std::vector<std::string> prop = K->getI(state);
+	m_root = new Node(state, prop, nullptr);
+	buildTree(K, 0, m_root);
 }
 
-void Tree::addNode(int father_ID, State s, bool a, bool b){
+void Tree::buildTree(Kripke* K, int step, Node* node){
+	std::vector<std::string> states = K->getR(node->get_state());
+	std::vector<std::string>::iterator it;
+	for(it = states.begin(); it != states.end(); it++){
+		Node* result = addNode(node->get_ID(), *it, K->getI(*it));
+		if (step < SIZEOFTREE){buildTree(K, step+1, result);}
+	}
+}
+
+Node *Tree::addNode(int father_ID, std::string s, std::vector<std::string> prop){
 	//Cherche le noeud auquel attacher le nouveau, et l'attache à l'arbre
 	Node* father = findNode(this->m_root, father_ID);
 	if (father == nullptr){
 		std::cout<<"Le demande était de créer le noeud attaché à l'ID "<<father_ID<<std::endl;
 		std::cout<<"ID non trouvé, noeud supprimé"<<std::endl;
+		return nullptr;
 	}
-	else {new Node(s, a, b, father);}
+	else {return new Node(s, prop, father);}
 }
 
 Node* Tree::findNode(Node* begin, int ID){
@@ -34,3 +50,4 @@ Node* Tree::findNode(Node* begin, int ID){
 	}
 	return nullptr;
 }
+
