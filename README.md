@@ -8,7 +8,7 @@ Toutes les sources utilisées seront ajoutées au dossier "sources".
 
 ## Tâches à réaliser : 
 - Fin de l'implémentation du modèle checking
-- Section 1.2 du rapport: Modèle checking CTL (Point de vue algorithmique sur le CTL)
+- Section 1.3 du rapport: Modèle checking CTL (Point de vue algorithmique sur le CTL)
 - Etude de cas via notre propre implématation de modèle checking CTL. (Exemple d'execution sur base de cas précis)
 
 ### Execution du code
