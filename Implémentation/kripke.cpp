@@ -6,6 +6,13 @@
 #include <cstring>
 #include <unordered_map>
 
+
+/*
+*Constructeur de la classe Kripke.
+*Effectue un parsing de file afin de créer le modele Kripke qui y correspond
+*
+*@Param file 		Fichier txt choisi pour le parsing
+*/
 Kripke::Kripke(std::string file){
 	std::ifstream inputFileStream(file);
 	if (inputFileStream){
@@ -57,6 +64,13 @@ Kripke::Kripke(std::string file){
 	}
 }
 
+
+/*
+*Getter de la/les proposition(s) en fonction de l'etat.
+*
+*@Param indice 			etat du noeud
+*@Return 				Renvoie la/les proposition(s) relative(s) a l'etat
+*/
 std::vector<std::string> Kripke::getI(std::string indice){
 	std::string tmp = this->I[indice];
 	std::vector<std::string> result;
@@ -66,6 +80,12 @@ std::vector<std::string> Kripke::getI(std::string indice){
 	return result;
 }
 
+/*
+*Getter de la/les relation(s) en fonction de l'etat.
+*
+*@Param indice 			etat du noeud
+*@Return 				Renvoie la/les relation(s) liant un etat a un autre.
+*/
 std::vector<std::string> Kripke::getR(std::string indice){
 	std::string tmp = this->R[indice];
 	std::vector<std::string> result;

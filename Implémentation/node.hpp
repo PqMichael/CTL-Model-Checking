@@ -16,13 +16,16 @@ public:
 	Node(std::string, std::vector<std::string>, Node*);
 	Node(const Node&) = default;
 	~Node() = default; //To be modified
-	inline std::vector<std::string> getTab()     const{return this->prop;}
-	inline Node* get_father()          const{return this->m_father;}
-	inline std::vector<Node*> get_son()const{return this->m_son;}
-	inline std::string get_state()     const{return this->s;}
-	inline int get_ID()                const{return this->ID;}
+	inline std::vector<std::string> get_prop()   const{return this->prop;}
+	inline Node* get_father()          			 const{return this->m_father;}
+	inline std::vector<Node*> get_son()			 const{return this->m_son;}
+	inline std::string get_state()     			 const{return this->s;}
+	inline int get_ID()                			 const{return this->ID;}
 
 	void addSon(Node*);
+	bool isFormulaPresent(std::string);
+	void addLabel(std::string);
+	void removeLabel(std::string);
 };
 
 
