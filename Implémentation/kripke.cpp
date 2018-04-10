@@ -77,6 +77,14 @@ std::vector<std::string> Kripke::getI(std::string indice){
 	std::string element;
 	std::stringstream iss(tmp);
 	while(std::getline(iss, element, '-')){result.push_back(element);}
+	std::vector<std::string>::iterator it;
+	for(it = this->V.begin(); it != this->V.end(); it++){
+		if(*it != result[0]){
+			element = "¬" + *it;
+			result.push_back(element);
+		}
+	result.push_back("true");
+	}
 	return result;
 }
 

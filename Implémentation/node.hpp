@@ -22,6 +22,8 @@ public:
 	inline std::string get_state()     			 const{return this->s;}
 	inline int get_ID()                			 const{return this->ID;}
 
+	inline void set_prop(std::vector<std::string> prop) {this->prop = prop;}
+
 	void addSon(Node*);
 	bool isFormulaPresent(std::string);
 	void addLabel(std::string);
