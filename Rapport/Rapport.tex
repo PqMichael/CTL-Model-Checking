@@ -17,6 +17,15 @@
 \documentclass[runningheads,a4paper]{llncs}
 
 \usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\renewcommand{\algorithmicforall}{\textbf{for each}}
+
+\newcommand{\var}[1]{\mathit{#1}}
+\newcommand{\func}[1]{\mathrm{#1}}
+
+\algdef{SE}[DOWHILE]{Do}{doWhile}{\algorithmicdo}[1]{\algorithmicwhile\ #1}%
 
 \usepackage{natbib}
 \bibliographystyle{apalike-fr}
@@ -147,21 +156,8 @@ AF, AG, A$\cup$ sont donc aussi des opérations valables.\\
 	\label{label-image5}
 \end{figure}
 
-\noindent A titre d'exemple toujours, essayons d'appliquer ces formules avec l'exemple de la figure \ref{label-image3}. \\
-Propriétés validées : 
-\begin{itemize}
-\item (AX ouverte)($S_{1}$) : En effet, lorsqu'on démarre de $S_{1}$, on peut aller vers $S_{1}$ soit $S_{2}$, et la variable propositionnelle pour ces deux états est "ouverte".
-\item (EF ouverte)($S_{3}$)
-\item (AF fermée)($S_{1}$)\\
-\end{itemize}
 
-\noindent Propriétés non validées : 
-\begin{itemize}
-\item (AX fermée)($S_{3}$)\\
-\end{itemize}
-
-
-\noindent De ces opérateurs découlent pas mal de propriétés. En voici une liste non exhaustive : 
+\noindent De ces opérateurs découlent plusieurs de propriétés. En voici une liste non exhaustive : 
 \begin{itemize}
 \item $\lnot$ AX $\varphi \Leftrightarrow $ EX $\lnot \varphi$
 \item $\lnot$ AF $\varphi \Leftrightarrow $ EG $\lnot \varphi$
@@ -204,9 +200,100 @@ Propriétés validées :
 \noindent \underline{Définition} : Un système sûre implique qu'il ne se passera jamais quelque chose de mauvais. AG $\lnot$ \textit{bad} \\
 \underline{Définition} : Un système vivace implique que quelque chose de bien arrivera toujours. AG AF \textit{good}
 
+\section{CTL Model Checking}
+Nous avons vu plus haut la liste des formules CTL possible. Ces huit opérations, à savoir EX, EF, EG, EU, AX, AF, AG et AU peuvent en réalité s'exprimer avec les trois opérations EX, EF et EU.
 
+\begin{itemize}
+\item AX $\varphi \Leftrightarrow \lnot$ EX $ \lnot \varphi$
+\item EF $\varphi \Leftrightarrow$ E[True U $\varphi$]
+\item AG $\varphi \Leftrightarrow \lnot$ EF $\lnot \varphi$
+\item AF $\varphi \Leftrightarrow \lnot$ EG $\lnot \varphi$
+\item A[$\varphi$ U $\psi$] $\Leftrightarrow \lnot$ E[$\lnot \psi$ U ($\lnot \varphi \land \lnot \psi$)] $\land$ EG $\lnot \psi$ \\
+\end{itemize}
 
-\subsection{CTL Model Checking}
+Ainsi, il nous suffit d'implémenter EX, EF et EU afin d'implémenter l'ensemble des opérations possibles en CTL. Lors de cette section, les algorithmes choisis afin de remplir notre objectif seront abordés.
+
+\noindent Avant toute chose, afin d'obtenir notre structure d'arbre sur laquelle nous pourrons effectuer nos opérations, il a été choisi de créer un modèle Kripke sur base d'un fichier .text. Ce modèle Kripke correspond aux modèles Kripke tels que vu sur la Figure 1. Une fois ce modèle Kripke construit, il nous est possible de créer l'arbre correspondant, à nouveau tel que vu sur la figure 2. A titre d'exemple, voici ce que contient le fichier .text sur lequel nous construisons notre modèle Kripke. 
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.6]{texteExemple.png}
+	\centering
+	\caption{Fichier text}
+	\label{label-image6}
+\end{figure}
+
+Le parsing de ce fichier text en un modèle Kripke donne exactement le modèle vu sur la Figure 1. 
+Lorsque l'on créer désormais l'arbre sur base de ce modèle Kripke, nous obtenons un arbre ayant cette structure : 
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.3]{arbreExemple.png}
+	\centering
+	\caption{arbre}
+	\label{label-image7}
+\end{figure}
+
+Attention cependant, les propriétés du noeud N 10 ont été modifiées pour que celui-ci corresponde à l'état "Fermé" afin de pouvoir illustrer d'avantage de résultats. Nous pouvons désormais implémenter les opérations voulue afin d'observer le résultat qu'auront celles-ci sur notre arbre.
+
+\subsection{EX}
+
+EX s'avère extrêmement simple puisqu'il suffit d'étiqueter l'état "EX $\varphi$" aux noeuds ayant un enfant avec l'étiquetage $\varphi$.
+
+\begin{algorithm}[H]
+  \caption{Exist Next}\label{euclid}
+  \begin{algorithmic}[1]
+  \Procedure{EX}{Node $\var{noeud}$, label $\varphi$}
+  \If {un des enfants de $\var{noeud}$ a le label $\varphi$}
+  \State ajouter le label EX$\varphi$ au noeud actuel
+  \EndIf
+  \State $\var{enfants} \gets \var{enfantsDuNoeudActuel}$
+  \ForAll{$\var{enfant}$ in $\var{enfants}$}:
+  \If {$\var{enfant}$ existe}
+  \State EX($\var{enfant}$, $\varphi$)
+  \EndIf
+  \EndFor
+  \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+
+\subsection{EG}
+
+Voici l'algorithme permetant d'implémenter EG $\varphi$: \\ Tout d'abord, on étiquette les noeuds ayant le label $\varphi$ avec le label EG $\varphi$. Ensuite, et ce tant qu'il n'y a plus de changement, on enlève le label EG $\varphi$ des noeuds n'ayant pas d'enfants avec le label EG $\varphi$. 
+
+\begin{algorithm}[H]
+  \caption{Exist Global}\label{euclid}
+  \begin{algorithmic}[1]
+  \Procedure{EG}{Node $\var{noeud}$, label $\varphi$}
+  \State ajouter le label EG$\varphi$ à tous les noeuds ayant le label $\varphi$
+  \Do
+  \State $\var{SomethingHasChanged} \gets$ False
+    \State Enlever le label EG$\varphi$ aux noeuds n'ayant pas d'enfant avec le label EG$\varphi$
+    \If {Une modification a eu lieu durant l'étape précédente}
+    \State $\var{SomethingHasChanged} \gets$ True
+    \EndIf
+  \doWhile{$\var{SomethingHasChanged}$}
+  \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+
+\subsection{EU}
+
+Voici l'algorithme afin d'implémenter EU[$\varphi$  U  $\psi$]: \\ En premier lieu, on étiquette avec le label EU[$\varphi$  U  $\psi$] les noeuds ayant le label $\psi$. Ensuite, et ce tant qu'il n'y a pas de changement, on ajoute le label EU[$\varphi$  U  $\psi$] aux noeuds ayant le label $\varphi$ et ayant un enfant avec le label EU[$\varphi$  U  $\psi$].
+
+\begin{algorithm}[H]
+  \caption{Exist Union}\label{euclid}
+  \begin{algorithmic}[1]
+  \Procedure{EU}{Node $\var{noeud}$, label $\varphi$, label $\psi$}
+  \State ajouter le label EU[$\varphi$  U  $\psi$] à tous les noeuds ayant le label $\psi$
+  \Do
+  \State $\var{SomethingHasChanged} \gets$ False
+    \State Ajouter le label EU[$\varphi$  U  $\psi$] aux noeuds ayant le label $\varphi$ et ayant un enfant avec le label EU[$\varphi$  U  $\psi$]
+    \If {Une modification a eu lieu durant l'étape précédente}
+    \State $\var{SomethingHasChanged} \gets$ True
+    \EndIf
+  \doWhile{$\var{SomethingHasChanged}$}
+  \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
 
 
 \end{document}
