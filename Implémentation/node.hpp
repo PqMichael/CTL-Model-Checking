@@ -3,8 +3,7 @@
 #include <vector>
 #include <string>
 
-class Node
-{
+class Node {
 private:
 	std::vector<std::string> prop;
 	Node* m_father;
@@ -22,7 +21,9 @@ public:
 	inline std::string get_state()     			 const{return this->s;}
 	inline int get_ID()                			 const{return this->ID;}
 
+	inline void set_father(Node* node) {this->m_father = node;}
 	inline void set_prop(std::vector<std::string> prop) {this->prop = prop;}
+	inline void set_state(std::string state) {this->s = state;}
 
 	void addSon(Node*);
 	bool isFormulaPresent(std::string);

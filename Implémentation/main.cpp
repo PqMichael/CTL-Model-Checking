@@ -7,35 +7,30 @@
 
 int main(){
 	Kripke* K = new Kripke("data.txt");
-	Tree* A = new Tree(K); //ID racine = 0
-	Node* root = A->get_root();
-	Node* myNode = A->findNode(root, 10);
-	std::vector<std::string> myProp {"fermé", "¬se ferme", "¬ouvert", "true"};
-	myNode->set_prop(myProp);
 
-	std::cout<<"\n\n----EXECUTION EF(fermé)----\n\n";
-	A->EF(root, "fermé");
 
 	std::cout<<"\n\n----EXECUTION EX(fermé)----\n\n";
-	A->EX(root, "fermé");
+	K->EX(K->getRoot(), "fermé");
 
 	std::cout<<"\n\n----EXECUTION EG(fermé)----\n\n";
-	A->EG(root, "fermé");
+	K->EG(K->getRoot(), "fermé");
 
 	std::cout<<"\n\n----EXECUTION E[ouvert U se ferme]----\n\n";
-	A->EU(root, "ouvert", "se ferme");
+	K->EU(K->getRoot(), "ouvert", "se ferme");
+
+	std::cout<<"\n\n----EXECUTION EF(fermé)----\n\n";
+	K->EF(K->getRoot(), "fermé");
 
 	std::cout<<"\n\n----EXECUTION AX(fermé)----\n\n";
-	A->AX(root, "fermé");
+	K->AX(K->getRoot(), "fermé");
 
 	std::cout<<"\n\n----EXECUTION AF(fermé)----\n\n";
-	A->AF(root, "fermé");
+	K->AF(K->getRoot(), "fermé");
 
 	std::cout<<"\n\n----EXECUTION AG(fermé)----\n\n";
-	A->AG(root, "fermé");
+	K->AG(K->getRoot(), "fermé");
 
-	//std::cout<<"\n\n----EXECUTION A[ouvert U se ferme]----\n\n";
-	//A->AU(root, "ouvert", "se ferme");
+	//Tree* A = new Tree(K); Création d'un arbre
 
 	return 0;
 }

@@ -449,10 +449,10 @@ void Tree::notEF(Node* begin, std::string formula){
 *@Param begin 			Noeud de depart
 *@Param formula 		Label voulu
 */
-void Tree::AU(Node* begin, std::string holdFormula, std::string endFormula){
+//void Tree::AU(Node* begin, std::string holdFormula, std::string endFormula){
 	//EG(begin, neg(endFormula));
 
-}
+//}
 
 /*
 *Fonction qui negate la formule
