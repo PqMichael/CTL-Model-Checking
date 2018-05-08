@@ -78,6 +78,8 @@ Le "model-checking" est une technique générale de "vérification automatique d
 \medskip
 \medskip
 
+\newpage 
+
 \section*{Introduction}
 
 Avec l'évolution technologique faisant acte de présence jours après jours, la plupart des services, informatique ou non, sont maintenant gérés via des système informatiques vérifiant leur bon fonctionnement. Mais pour certains services, il est impératif que ces systèmes fonctionnent correctement.\\
@@ -96,7 +98,7 @@ Le premier point que nous aborderons sera l'aspect analytique du modèle (Qu'est
 
 Pour pouvoir analyser un système et pouvoir vérifier son efficacité, il est utile de le dériver en un graphe. Afin d'imager nos propos, reprenons l'exemple de la voie ferrée :\\ imaginons donc une voie ferrée sur laquelle aucun train ne circule. La voie est donc vide. On peut constate là un premier état de notre voie ferrée, l'état \textbf{vide}. Lorsque notre voie est vide, il se peut qu'à tout moment, un train soit \textbf{en approche}, et qu'on doive commencer à fermer les portes. Après quoi la voie sera \textbf{occupée} par le train pour qu'ensuite celui-ci reparte et laisse la voie \textbf{vide}.\\
 
-\noindent Un tel système peut être représenté sous cette forme :  
+\noindent Un tel système peut être représenté sous la forme vue sur la figure  \ref{label-image3}.
 
 \begin{figure}[!h]
 	\includegraphics[scale=0.5]{graphe.png}
@@ -117,13 +119,16 @@ est le modèle \textit{Kripke} dont :
 \item \textbf{R} est l'ensemble des relations entre chacun des états.
 \end{enumerate}
 
-\noindent Nous avons donc un graphe cyclique dont le nombre d'états est fini. Il est intéressant de voir que lorsque l'on créer un arbre sur base d'un tel graphe, celui-ci sera infini dû au carractère cyclique du graphe. Faisons le travail de transformer ce graphe en un arbre : 
 \begin{figure}[!h]
 	\includegraphics[scale=0.4]{kripke.png}
 	\centering
 	\caption{du Modèle Kripke à l'arbre de recherche}
 	\label{label-image4}
 \end{figure}
+
+\noindent Nous avons donc un graphe cyclique dont le nombre d'états est fini. Il est intéressant de voir que lorsque l'on créer un arbre sur base d'un tel graphe, celui-ci sera infini dû au carractère cyclique du graphe. Nous pouvons voir ce que donne la création d'un arbre sur base de modèle Kripke sur la figure \ref{label-image4}.
+
+
 
 \noindent C'est maintenant grâce à de telles structures que nous allons pouvoir analyser notre système et vérifier que celui-ci soit infaillible.
 
@@ -157,7 +162,7 @@ AF, AG, A$\cup$ sont donc aussi des opérations valables.\\
 \end{figure}
 
 
-\noindent De ces opérateurs découlent plusieurs de propriétés. En voici une liste non exhaustive : 
+\noindent De ces opérateurs découlent plusieurs propriétés. En voici une liste non exhaustive : 
 \begin{itemize}
 \item $\lnot$ AX $\varphi \Leftrightarrow $ EX $\lnot \varphi$
 \item $\lnot$ AF $\varphi \Leftrightarrow $ EG $\lnot \varphi$
@@ -200,8 +205,9 @@ AF, AG, A$\cup$ sont donc aussi des opérations valables.\\
 \noindent \underline{Définition} : Un système sûre implique qu'il ne se passera jamais quelque chose de mauvais. AG $\lnot$ \textit{bad} \\
 \underline{Définition} : Un système vivace implique que quelque chose de bien arrivera toujours. AG AF \textit{good}
 
-\section{CTL Model Checking}
-Nous avons vu plus haut la liste des formules CTL possible. Ces huit opérations, à savoir EX, EF, EG, EU, AX, AF, AG et AU peuvent en réalité s'exprimer avec les trois opérations EX, EF et EU.
+\section{Chapite 2}
+\subsection{CTL Model Checking}
+Nous avons vu plus haut la liste des formules CTL possible. Ces huit opérations, à savoir EX, EF, EG, EU, AX, AF, AG et AU peuvent en réalité s'exprimer avec les trois opérations EX, EG et EU.
 
 \begin{itemize}
 \item AX $\varphi \Leftrightarrow \lnot$ EX $ \lnot \varphi$
@@ -211,28 +217,11 @@ Nous avons vu plus haut la liste des formules CTL possible. Ces huit opérations
 \item A[$\varphi$ U $\psi$] $\Leftrightarrow \lnot$ E[$\lnot \psi$ U ($\lnot \varphi \land \lnot \psi$)] $\land$ EG $\lnot \psi$ \\
 \end{itemize}
 
-Ainsi, il nous suffit d'implémenter EX, EF et EU afin d'implémenter l'ensemble des opérations possibles en CTL. Lors de cette section, les algorithmes choisis afin de remplir notre objectif seront abordés.
+\noindent Ainsi, il nous suffit d'implémenter EX, EG et EU afin d'implémenter l'ensemble des opérations possibles en CTL. Lors de cette section, les algorithmes choisis afin de remplir notre objectif seront abordés.
 
-\noindent Avant toute chose, afin d'obtenir notre structure d'arbre sur laquelle nous pourrons effectuer nos opérations, il a été choisi de créer un modèle Kripke sur base d'un fichier .text. Ce modèle Kripke correspond aux modèles Kripke tels que vu sur la Figure 1. Une fois ce modèle Kripke construit, il nous est possible de créer l'arbre correspondant, à nouveau tel que vu sur la figure 2. A titre d'exemple, voici ce que contient le fichier .text sur lequel nous construisons notre modèle Kripke. 
+\noindent Afin de pouvoir exécuter nos algorithme, il nous faut tout d'abord créer notre modèle Kripke. Celui-ci sera créé sur base d'un fichier \textit{.text} que l'on va parser. Un travail supplémentaire a été fait afin de pouvoir créer un arbre sur base de notre modèle Kripke. Cela ne s'avère en réalité pas compliqué puisqu'un arbre est une sorte de graphe. 
 
-\begin{figure}[!h]
-	\includegraphics[scale=0.6]{texteExemple.png}
-	\centering
-	\caption{Fichier text}
-	\label{label-image6}
-\end{figure}
-
-Le parsing de ce fichier text en un modèle Kripke donne exactement le modèle vu sur la Figure 1. 
-Lorsque l'on créer désormais l'arbre sur base de ce modèle Kripke, nous obtenons un arbre ayant cette structure : 
-
-\begin{figure}[!h]
-	\includegraphics[scale=0.3]{arbreExemple.png}
-	\centering
-	\caption{arbre}
-	\label{label-image7}
-\end{figure}
-
-Attention cependant, les propriétés du noeud N 10 ont été modifiées pour que celui-ci corresponde à l'état "Fermé" afin de pouvoir illustrer d'avantage de résultats. Nous pouvons désormais implémenter les opérations voulue afin d'observer le résultat qu'auront celles-ci sur notre arbre.
+\noindent Nous pouvons désormais implémenter les opérations voulue afin d'observer le résultat qu'auront celles-ci sur notre modèle.
 
 \subsection{EX}
 
@@ -255,6 +244,19 @@ EX s'avère extrêmement simple puisqu'il suffit d'étiqueter l'état "EX $\varp
   \end{algorithmic}
 \end{algorithm}
 
+\subsubsection{Exemple d'execution}
+
+Voici la façon dont fonctionne cet algorithme vu sous forme de schéma.
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.5]{EX.png}
+	\centering
+	\caption{Exemple EX}
+	\label{label-image6}
+\end{figure}
+
+\newpage
+
 \subsection{EG}
 
 Voici l'algorithme permetant d'implémenter EG $\varphi$: \\ Tout d'abord, on étiquette les noeuds ayant le label $\varphi$ avec le label EG $\varphi$. Ensuite, et ce tant qu'il n'y a plus de changement, on enlève le label EG $\varphi$ des noeuds n'ayant pas d'enfants avec le label EG $\varphi$. 
@@ -274,6 +276,17 @@ Voici l'algorithme permetant d'implémenter EG $\varphi$: \\ Tout d'abord, on é
   \EndProcedure
   \end{algorithmic}
 \end{algorithm}
+
+\subsubsection{Exemple d'execution}
+
+Voici la façon dont fonctionne cet algorithme vu sous forme de schéma.
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.5]{EG.png}
+	\centering
+	\caption{Exemple EG}
+	\label{label-image7}
+\end{figure}
 
 \subsection{EU}
 
@@ -295,5 +308,54 @@ Voici l'algorithme afin d'implémenter EU[$\varphi$  U  $\psi$]: \\ En premier l
   \end{algorithmic}
 \end{algorithm}
 
+\subsubsection{Exemple d'execution}
 
+Voici la façon dont fonctionne cet algorithme vu sous forme de schéma.
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.5]{EU.png}
+	\centering
+	\caption{Exemple EU}
+	\label{label-image8}
+\end{figure}
+
+\subsection{Autres opérations}
+
+Il est facile de prouver la véracité des relations citées permettant de définir l'ensemble des huit opérations comme étant une combinaison des trois opérations primaires définies plus haut.
+
+\noindent En effet, si nous prenons par exemple la relation "AF $\varphi \Leftrightarrow \lnot$ EG $\lnot \varphi$", celle-ci signifie que "AF $\varphi$" est équivalent à dire qu'il n'existe pas de chemin dans lequel $\varphi$ n'est présent dans aucun des états futures, ce qui est bel et bien équivalent à dire que $\varphi$ apparait dans un état future de chaque chemin.
+
+\noindent Il en va de même pour chacune des opérations restantes.
+
+\newpage
+
+\section{Chapite 3}
+\subsection{Résultats}
+Dans le cadre de ce travail, il a été choisi de hardcoder les formules CTL afin de faciliter l'implémentation des algorithmes. Malheureusement, cela a pour conséquence la forte réduction du champs des possibles. En effet, il n'est pas possible d'effectuer d'imbriquations d'opérations telle que "AG AF $\varphi$". \\
+\noindent Cependant, il est tout à fait possible d'appliquer les opérations une à une. Ainsi, si on reprend une nouvelle fois notre modèle Kripke de la Figure \ref{label-image3}, et qu'on effectue par exemple "AG fermé", voici ce que l'on obtien : 
+
+\begin{figure}[!h]
+	\includegraphics[scale=0.8]{executionExemple.png}
+	\centering
+	\caption{Exemple d'exécution AG}
+	\label{label-image9}
+\end{figure}
+
+\noindent Interprétons ce résultat : Comme nous l'avons vu, "AG $\varphi \Leftrightarrow \lnot$ EF $\lnot \varphi$". Afin d'exécuter "AG fermé", il nous faut d'abord effectuer "EF $\lnot$ fermé". Mais nous avons également vu que "EF $\varphi \Leftrightarrow$ E[True U $\varphi$]". Le programme va donc en premier lieu exécuter E[True U $\lnot$ fermé] afin de déterminer les noeuds ayant le label "AF $\lnot$ fermé" et enfin pouvoir déterminer quels noeud présentent le label "AG fermé".\\
+\noindent Dans notre cas, nous nous rendons compte qu'aucun état ne présente le label AG fermé. Effectivement, il n'existe pas d'état tel que dans tous les chemins partant de celui-ci, "fermé" apparait dans tous les états futures.\\
+
+\noindent En plus de l'implémentation sur le modèle Kripke, il est également possible d'effectuer ces opérations sur une structure d'arbre dont on a parlé précédemment. Il est intéressant de voir que cela fonctionne également mais que cela induit que le temps d'exécution des opérations est polynomial (Directement proportionnel à la taille de l'arbre) en raison de la taille finie de l'arbre lorsque celui-ci est construit. (On ne peut en effet pas stocker un arbre infini en mémoire)\\
+
+\noindent Le code source est disponnible sur \\ \url{https://github.com/PqMichael/CTL-Model-Checking}
+
+\section{Conclusion}
+
+Nous avons maintenant idée de ce qu'est le Model Checking et de tout ce qu'il permet, en plus de quoi nous avons ajouté notre propre implémentation, même si celle-ci s'avère incomplète. Il serait donc intéressant de continuer celle-ci afin de pouvoir vérifier d'avantage de propriétés sur divers modèles. \\
+
+\noindent Attention cependant, le modèle checking CTL présente un inconvénient : le nombre d'état et variables du système. En effet, l'augmentation de variables dans un système implique une augmentation exponentielle de la taille du modèle, compliquant ainsi la vérification du modèle.
+Plusieurs recherches sont donc encore maintenant effectuées afin de trouver solutions à ce problème récurent.
+
+\section{Bibliographie}
+
+L'ensemble des sources ayant été utilisées afin de rédiger ce rapport peuvent être trouvées sur\\ \url{https://github.com/PqMichael/CTL-Model-Checking/tree/master/Sources}
 \end{document}
