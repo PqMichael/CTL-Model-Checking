@@ -19,6 +19,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{algorithm}
+%\usepackage{cite}
+\usepackage{natbib}
 \usepackage[noend]{algpseudocode}
 \renewcommand{\algorithmicforall}{\textbf{for each}}
 
@@ -38,6 +40,7 @@
 \usepackage[T1]{fontenc} % Pour que les lettres accentuées soient reconnues
 
 \usepackage{url}
+
 \urldef{\mailsa}\path|{alfred.hofmann, ursula.barth, ingrid.haas, frank.holzwarth,|
 \urldef{\mailsb}\path|anna.kramer, leonie.kunz, christine.reiss, nicole.sator,|
 \urldef{\mailsc}\path|erika.siebert-cole, peter.strasser, lncs}@springer.com|    
@@ -184,7 +187,7 @@ AF, AG, A$\cup$ sont donc aussi des opérations valables.\\
 \item $\pi\up{i+1}$ est un des états succédant $\pi\up{i}$.\\
 \end{itemize}
 
-\noindent A nouveau, une série de propriétés découle des définitions précédentes : 
+\noindent A nouveau, comme l'indique \cite{principle} dans leur livre, une série de propriétés découle des définitions précédentes : 
 \begin{itemize}
 \item AX $\varphi \Leftrightarrow \forall \pi \cdot \pi\up{1} \vDash \varphi$
 \item EX $\varphi \Leftrightarrow \exists \pi \cdot \pi\up{1} \vDash \varphi$
@@ -205,7 +208,7 @@ AF, AG, A$\cup$ sont donc aussi des opérations valables.\\
 \noindent \underline{Définition} : Un système sûre implique qu'il ne se passera jamais quelque chose de mauvais. AG $\lnot$ \textit{bad} \\
 \underline{Définition} : Un système vivace implique que quelque chose de bien arrivera toujours. AG AF \textit{good}
 
-\section{Chapite 2}
+\section{Chapitre 2}
 \subsection{CTL Model Checking}
 Nous avons vu plus haut la liste des formules CTL possible. Ces huit opérations, à savoir EX, EF, EG, EU, AX, AF, AG et AU peuvent en réalité s'exprimer avec les trois opérations EX, EG et EU.
 
@@ -325,11 +328,11 @@ Il est facile de prouver la véracité des relations citées permettant de défi
 
 \noindent En effet, si nous prenons par exemple la relation "AF $\varphi \Leftrightarrow \lnot$ EG $\lnot \varphi$", celle-ci signifie que "AF $\varphi$" est équivalent à dire qu'il n'existe pas de chemin dans lequel $\varphi$ n'est présent dans aucun des états futures, ce qui est bel et bien équivalent à dire que $\varphi$ apparait dans un état future de chaque chemin.
 
-\noindent Il en va de même pour chacune des opérations restantes.
+\noindent Il en va de même pour chacune des opérations restantes. \\ 
 
-\newpage
+\noindent Tous les algorithmes ont été inspirés de publications universitaires tels que \cite{LectureA}, \cite{LectureB}, \cite{LectureC} et \cite{LectureD}
 
-\section{Chapite 3}
+\section{Chapitre 3}
 \subsection{Résultats}
 Dans le cadre de ce travail, il a été choisi de hardcoder les formules CTL afin de faciliter l'implémentation des algorithmes. Malheureusement, cela a pour conséquence la forte réduction du champs des possibles. En effet, il n'est pas possible d'effectuer d'imbriquations d'opérations telle que "AG AF $\varphi$". \\
 \noindent Cependant, il est tout à fait possible d'appliquer les opérations une à une. Ainsi, si on reprend une nouvelle fois notre modèle Kripke de la Figure \ref{label-image3}, et qu'on effectue par exemple "AG fermé", voici ce que l'on obtien : 
@@ -344,7 +347,7 @@ Dans le cadre de ce travail, il a été choisi de hardcoder les formules CTL afi
 \noindent Interprétons ce résultat : Comme nous l'avons vu, "AG $\varphi \Leftrightarrow \lnot$ EF $\lnot \varphi$". Afin d'exécuter "AG fermé", il nous faut d'abord effectuer "EF $\lnot$ fermé". Mais nous avons également vu que "EF $\varphi \Leftrightarrow$ E[True U $\varphi$]". Le programme va donc en premier lieu exécuter E[True U $\lnot$ fermé] afin de déterminer les noeuds ayant le label "AF $\lnot$ fermé" et enfin pouvoir déterminer quels noeud présentent le label "AG fermé".\\
 \noindent Dans notre cas, nous nous rendons compte qu'aucun état ne présente le label AG fermé. Effectivement, il n'existe pas d'état tel que dans tous les chemins partant de celui-ci, "fermé" apparait dans tous les états futures.\\
 
-\noindent En plus de l'implémentation sur le modèle Kripke, il est également possible d'effectuer ces opérations sur une structure d'arbre dont on a parlé précédemment. Il est intéressant de voir que cela fonctionne également mais que cela induit que le temps d'exécution des opérations est polynomial (Directement proportionnel à la taille de l'arbre) en raison de la taille finie de l'arbre lorsque celui-ci est construit. (On ne peut en effet pas stocker un arbre infini en mémoire)\\
+\noindent En plus de l'implémentation sur le modèle Kripke, il est également possible d'effectuer ces opérations sur une structure d'arbre dont on a parlé précédemment. Mais il est à noté que la taille de l'arbre ne peut pas être infinie en mémoire et qu'il se peut donc qu'un système présente une erreur sans que l'algorithme ne le détecte. \\
 
 \noindent Le code source est disponnible sur \\ \url{https://github.com/PqMichael/CTL-Model-Checking}
 
@@ -353,9 +356,9 @@ Dans le cadre de ce travail, il a été choisi de hardcoder les formules CTL afi
 Nous avons maintenant idée de ce qu'est le Model Checking et de tout ce qu'il permet, en plus de quoi nous avons ajouté notre propre implémentation, même si celle-ci s'avère incomplète. Il serait donc intéressant de continuer celle-ci afin de pouvoir vérifier d'avantage de propriétés sur divers modèles. \\
 
 \noindent Attention cependant, le modèle checking CTL présente un inconvénient : le nombre d'état et variables du système. En effet, l'augmentation de variables dans un système implique une augmentation exponentielle de la taille du modèle, compliquant ainsi la vérification du modèle.
-Plusieurs recherches sont donc encore maintenant effectuées afin de trouver solutions à ce problème récurent.
+Plusieurs recherches à ce sujet ont déjà été menées (dans \cite{a2} par exemple) et sont encore menées comme dit dans \cite{a1}.\\
+D'avantages de problèmes sont cités par \citep{a3}.
 
-\section{Bibliographie}
-
-L'ensemble des sources ayant été utilisées afin de rédiger ce rapport peuvent être trouvées sur\\ \url{https://github.com/PqMichael/CTL-Model-Checking/tree/master/Sources}
+\bibliography{references}{}
+\bibliographystyle{plain}
 \end{document}
