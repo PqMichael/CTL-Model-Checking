@@ -85,7 +85,7 @@ Le "model-checking" est une technique générale de "vérification automatique d
 
 \section*{Introduction}
 
-Avec l'évolution technologique faisant acte de présence jours après jours, la plupart des services, informatique ou non, sont maintenant gérés via des système informatiques vérifiant leur bon fonctionnement. Mais pour certains services, il est impératif que ces systèmes fonctionnent correctement.\\
+Avec l'évolution technologique faisant acte de présence jours après jours, la plupart des services, informatiques ou non, sont maintenant gérés via des systèmes informatiques vérifiant leur bon fonctionnement. Mais pour certains services, il est impératif que ces systèmes fonctionnent correctement.\\
 
 
 \noindent Prenons l'exemple d'une voie ferrée. Dans ce cas de figure-ci, il est impératif que les portes soient fermées lorsque le train traverse le passage à niveau. Comme dit précédemment, un système informatique s'occupera de gérer cela.
@@ -93,13 +93,13 @@ Avec l'évolution technologique faisant acte de présence jours après jours, la
 \noindent Mais puisqu'on ne peut pas se permettre la moindre erreur, nous nous devons de vérifier que le système n'échouera jamais, et c'est dans ce cas de figure que le \textit{Model Checking} fut créé et utilisé.\\
 
 \noindent Au cours de l'explication de ce qu'est le model checking CTL, nous passerons donc en revue chacun des points de vue qu'on peut adopter lorsqu'on parle de \textit{Model Checking CTL}.\\
-Le premier point que nous aborderons sera l'aspect analytique du modèle (Qu'est-ce qu'on doit vérifier ?). Lors de ce chapitre, nous allons montrer la façon dont on découpe un système pour en faire des structures propice à l'analyse et à la vérification. Des structures comme les \textit{Kripke models} ou encore les arbre seront bien évidemment abordées. Une fois ces objets observés, nous étudierons la façon dont on peut vérifier l'efficacité d'un système.
+Le premier point que nous aborderons sera l'aspect analytique du modèle (Qu'est-ce qu'on doit vérifier ?). Lors de ce chapitre, nous allons montrer la façon dont on découpe un système pour en faire des structures propices à l'analyse et à la vérification. Des structures comme les \textit{Kripke models} ou encore les arbres seront bien évidemment abordées. Une fois ces objets observés, nous étudierons la façon dont on peut vérifier l'efficacité d'un système.
 
 
 \section{Chapitre 1}
 \subsection{Du graphe aux arbres de recherche}
 
-Pour pouvoir analyser un système et pouvoir vérifier son efficacité, il est utile de le dériver en un graphe. Afin d'imager nos propos, reprenons l'exemple de la voie ferrée :\\ imaginons donc une voie ferrée sur laquelle aucun train ne circule. La voie est donc vide. On peut constate là un premier état de notre voie ferrée, l'état \textbf{vide}. Lorsque notre voie est vide, il se peut qu'à tout moment, un train soit \textbf{en approche}, et qu'on doive commencer à fermer les portes. Après quoi la voie sera \textbf{occupée} par le train pour qu'ensuite celui-ci reparte et laisse la voie \textbf{vide}.\\
+Pour pouvoir analyser un système et pouvoir vérifier son efficacité, il est utile de le dériver en un graphe. Afin d'imager nos propos, reprenons l'exemple de la voie ferrée :\\ imaginons donc une voie ferrée sur laquelle aucun train ne circule. La voie est donc vide. On peut constater là un premier état de notre voie ferrée, l'état \textbf{vide}. Lorsque notre voie est vide, il se peut qu'à tout moment, un train soit \textbf{en approche}, et qu'on doive commencer à fermer les portes. Après quoi la voie sera \textbf{occupée} par le train pour qu'ensuite celui-ci reparte et laisse la voie \textbf{vide}.\\
 
 \noindent Un tel système peut être représenté sous la forme vue sur la figure  \ref{label-image3}.
 
@@ -110,15 +110,15 @@ Pour pouvoir analyser un système et pouvoir vérifier son efficacité, il est u
 	\label{label-image3}
 \end{figure}
 
-\noindent Avec x étant une variable propositionnelle pour déterminer l'état des portes.\\
+\noindent Avec \textit{x} étant une variable propositionnelle pour déterminer l'état des portes.\\
 Un tel modèle est appelé \textit{Kripke Model}.\\
 Par convention, le modèle \textit{Kripke} : $$K = (V, S, S_{0}, I, R)$$ \\
 est le modèle \textit{Kripke} dont :
 \begin{enumerate}
 \item \textbf{V}\{ouverte, se ferme, fermée\} est un ensemble fini de propositions atomiques.
-\item \textbf{S}\{vide, en approche, occupée\} est en ensemble fini d'état.
+\item \textbf{S}\{vide, en approche, occupée\} est en ensemble fini d'états.
 \item \textbf{$\textrm{S}_\textrm{0}$} est l'état initial.
-\item \textbf{I : S $\rightarrow$ 2\up{V}} est la fonction qui lie chaque états avec les propositions qui y sont liées.
+\item \textbf{I : S $\rightarrow$ 2\up{V}} est la fonction qui lie chaque état avec les propositions qui y sont liées.
 \item \textbf{R} est l'ensemble des relations entre chacun des états.
 \end{enumerate}
 
@@ -129,7 +129,7 @@ est le modèle \textit{Kripke} dont :
 	\label{label-image4}
 \end{figure}
 
-\noindent Nous avons donc un graphe cyclique dont le nombre d'états est fini. Il est intéressant de voir que lorsque l'on créer un arbre sur base d'un tel graphe, celui-ci sera infini dû au carractère cyclique du graphe. Nous pouvons voir ce que donne la création d'un arbre sur base de modèle Kripke sur la figure \ref{label-image4}.
+\noindent Nous avons donc un graphe cyclique dont le nombre d'états est fini. Il est intéressant de voir que lorsque l'on crée un arbre sur base d'un tel graphe, celui-ci sera infini dû au carractère cyclique du graphe. Nous pouvons voir ce que donne la création d'un arbre sur base de modèle Kripke sur la figure \ref{label-image4}.
 
 
 
@@ -137,7 +137,7 @@ est le modèle \textit{Kripke} dont :
 
 \subsection{Computational Tree Logic (CTL)}
 
-La syntaxe de la \textit{Computational Tree Logic} utilise des formule booléennes : \textit{True} et \textit{False} sont donc des formules \textit{CTL}.\\
+La syntaxe de la \textit{Computational Tree Logic} utilise des formules booléennes : \textit{True} et \textit{False} sont donc des formules \textit{CTL}.\\
 Les variables propositionnelles sont des formules \textit{CTL}.\\
 Ainsi, si $\varphi$ et $\psi$ sont des formules \textit{CTL} alors : $\lnot \varphi$, $\varphi \land \psi$ et $\varphi \lor \psi$ le sont aussi.\\
 
@@ -152,8 +152,8 @@ Ainsi, si $\varphi$ et $\psi$ sont des formules \textit{CTL} alors : $\lnot \var
 
 
 \noindent Les opérations ici citées sont à chaque fois des "\textit{There exists}" (EX = Exists next), mais il existe également les opérations "\textit{ForAll}". \\
-Ainsi, AX $\varphi$ : $\varphi$ apparait dans \textbf{tous} les états suivants.
-AF, AG, A$\cup$ sont donc aussi des opérations valables.\\
+Ainsi, AX (AX $\varphi$ : $\varphi$ apparait dans \textbf{tous} les états suivants),
+AF, AG et A$\cup$ sont aussi des opérations valables.\\
 
 \noindent Voici à titre d'exemple un schéma pour se donner une idée de ce que ces opérations signifient.
 
@@ -178,10 +178,10 @@ AF, AG, A$\cup$ sont donc aussi des opérations valables.\\
 \item A[$\varphi$ W $\psi$] $ \Leftrightarrow \lnot$ E[$\lnot \psi \ \cup$ ($\lnot \varphi \ \land \ \lnot \psi$)]\\
 \end{itemize}
 
-\noindent Maintenant que nous avons fait un tour non exhaustif de ce qu'était la syntaxe de \textit{CTL}, abordons la sémantique telle que vue dans le livre de \cite{principle} :  \\
+\noindent Maintenant que nous avons fait un tour non exhaustif de ce qu'était la syntaxe de \textit{CTL}, abordons la sémantique. Plus de détails sont présents dans le livre de \cite{principle}, une des sources utilisée pour rédiger cette partie du rapport.  \\
 
 \begin{itemize}
-\item Soit $\varphi$ une formule \textit{CTL}, alors : $$K, s \vDash \varphi$$ signifie que $\varphi$ est vérifié à l'état \textbf{s}. La plupart du temps, K est omis puisque nous toujours au sein du même modèle \textit{Kripke}.\\
+\item Soit $\varphi$ une formule \textit{CTL}, alors : $$K, s \vDash \varphi$$ signifie que $\varphi$ est vérifié à l'état \textbf{s}. La plupart du temps, K est omis puisque nous sommes toujours au sein du même modèle \textit{Kripke}.\\
 \item $\pi$ = $\pi\up{0} \pi\up{1} ...$ est un chemin.
 \item $\pi\up{0}$ est l'état initial (la racine).
 \item $\pi\up{i+1}$ est un des états succédant $\pi\up{i}$.\\
@@ -210,7 +210,7 @@ AF, AG, A$\cup$ sont donc aussi des opérations valables.\\
 
 \section{Chapitre 2}
 \subsection{CTL Model Checking}
-Nous avons vu plus haut la liste des formules CTL possible. Ces huit opérations, à savoir EX, EF, EG, EU, AX, AF, AG et AU peuvent en réalité s'exprimer avec les trois opérations EX, EG et EU.
+Nous avons vu plus haut la liste des formules CTL possibles. Ces huit opérations, à savoir EX, EF, EG, EU, AX, AF, AG et AU peuvent en réalité s'exprimer avec les trois opérations EX, EG et EU.
 
 \begin{itemize}
 \item AX $\varphi \Leftrightarrow \lnot$ EX $ \lnot \varphi$
@@ -222,9 +222,9 @@ Nous avons vu plus haut la liste des formules CTL possible. Ces huit opérations
 
 \noindent Ainsi, il nous suffit d'implémenter EX, EG et EU afin d'implémenter l'ensemble des opérations possibles en CTL. Lors de cette section, les algorithmes choisis afin de remplir notre objectif seront abordés.
 
-\noindent Afin de pouvoir exécuter nos algorithme, il nous faut tout d'abord créer notre modèle Kripke. Celui-ci sera créé sur base d'un fichier \textit{.text} que l'on va parser. Un travail supplémentaire a été fait afin de pouvoir créer un arbre sur base de notre modèle Kripke. Cela ne s'avère en réalité pas compliqué puisqu'un arbre est une sorte de graphe. 
+\noindent Afin de pouvoir exécuter nos algorithmes, il nous faut tout d'abord créer notre modèle Kripke. Celui-ci sera créé sur base d'un fichier \textit{.text} que l'on va parser. Un travail supplémentaire a été fait afin de pouvoir créer un arbre sur base de notre modèle Kripke. Cela ne s'avère en réalité pas compliqué puisqu'un arbre est une sorte de graphe. 
 
-\noindent Nous pouvons désormais implémenter les opérations voulue afin d'observer le résultat qu'auront celles-ci sur notre modèle.
+\noindent Nous pouvons désormais implémenter les opérations voulues afin d'observer le résultat qu'auront celles-ci sur notre modèle.
 
 \subsection{EX}
 
@@ -262,7 +262,7 @@ Voici la façon dont fonctionne cet algorithme vu sous forme de schéma.
 
 \subsection{EG}
 
-Voici l'algorithme permetant d'implémenter EG $\varphi$: \\ Tout d'abord, on étiquette les noeuds ayant le label $\varphi$ avec le label EG $\varphi$. Ensuite, et ce tant qu'il n'y a plus de changement, on enlève le label EG $\varphi$ des noeuds n'ayant pas d'enfants avec le label EG $\varphi$. 
+Voici l'algorithme permetant d'implémenter EG $\varphi$: \\ Tout d'abord, on étiquette les noeuds ayant le label $\varphi$ avec le label EG $\varphi$. Ensuite, et ce tant qu'il n'y a plus de changements, on enlève le label EG $\varphi$ des noeuds n'ayant pas d'enfants avec le label EG $\varphi$. 
 
 \begin{algorithm}[H]
   \caption{Exist Global}\label{euclid}
@@ -271,7 +271,7 @@ Voici l'algorithme permetant d'implémenter EG $\varphi$: \\ Tout d'abord, on é
   \State ajouter le label EG$\varphi$ à tous les noeuds ayant le label $\varphi$
   \Do
   \State $\var{SomethingHasChanged} \gets$ False
-    \State Enlever le label EG$\varphi$ aux noeuds n'ayant pas d'enfant avec le label EG$\varphi$
+    \State Enlever le label EG$\varphi$ aux noeuds n'ayant pas d'enfants avec le label EG$\varphi$
     \If {Une modification a eu lieu durant l'étape précédente}
     \State $\var{SomethingHasChanged} \gets$ True
     \EndIf
@@ -293,16 +293,16 @@ Voici la façon dont fonctionne cet algorithme vu sous forme de schéma.
 
 \subsection{EU}
 
-Voici l'algorithme afin d'implémenter EU[$\varphi$  U  $\psi$]: \\ En premier lieu, on étiquette avec le label EU[$\varphi$  U  $\psi$] les noeuds ayant le label $\psi$. Ensuite, et ce tant qu'il n'y a pas de changement, on ajoute le label EU[$\varphi$  U  $\psi$] aux noeuds ayant le label $\varphi$ et ayant un enfant avec le label EU[$\varphi$  U  $\psi$].
+Voici l'algorithme afin d'implémenter E[$\varphi$  U  $\psi$]: \\ En premier lieu, on étiquette avec le label E[$\varphi$  U  $\psi$] les noeuds ayant le label $\psi$. Ensuite, et ce tant qu'il n'y a pas de changements, on ajoute le label E[$\varphi$  U  $\psi$] aux noeuds ayant le label $\varphi$ et ayant un enfant avec le label E[$\varphi$  U  $\psi$].
 
 \begin{algorithm}[H]
   \caption{Exist Union}\label{euclid}
   \begin{algorithmic}[1]
   \Procedure{EU}{Node $\var{noeud}$, label $\varphi$, label $\psi$}
-  \State ajouter le label EU[$\varphi$  U  $\psi$] à tous les noeuds ayant le label $\psi$
+  \State ajouter le label E[$\varphi$  U  $\psi$] à tous les noeuds ayant le label $\psi$
   \Do
   \State $\var{SomethingHasChanged} \gets$ False
-    \State Ajouter le label EU[$\varphi$  U  $\psi$] aux noeuds ayant le label $\varphi$ et ayant un enfant avec le label EU[$\varphi$  U  $\psi$]
+    \State Ajouter le label E[$\varphi$  U  $\psi$] aux noeuds ayant le label $\varphi$ et ayant un enfant avec le label E[$\varphi$  U  $\psi$]
     \If {Une modification a eu lieu durant l'étape précédente}
     \State $\var{SomethingHasChanged} \gets$ True
     \EndIf
@@ -344,10 +344,10 @@ Dans le cadre de ce travail, il a été choisi de hardcoder les formules CTL afi
 	\label{label-image9}
 \end{figure}
 
-\noindent Interprétons ce résultat : Comme nous l'avons vu, "AG $\varphi \Leftrightarrow \lnot$ EF $\lnot \varphi$". Afin d'exécuter "AG fermé", il nous faut d'abord effectuer "EF $\lnot$ fermé". Mais nous avons également vu que "EF $\varphi \Leftrightarrow$ E[True U $\varphi$]". Le programme va donc en premier lieu exécuter E[True U $\lnot$ fermé] afin de déterminer les noeuds ayant le label "AF $\lnot$ fermé" et enfin pouvoir déterminer quels noeud présentent le label "AG fermé".\\
+\noindent Interprétons ce résultat : Comme nous l'avons vu, "AG $\varphi \Leftrightarrow \lnot$ EF $\lnot \varphi$". Afin d'exécuter "AG fermé", il nous faut d'abord effectuer "EF $\lnot$ fermé". Mais nous avons également vu que "EF $\varphi \Leftrightarrow$ E[True U $\varphi$]". Le programme va donc en premier lieu exécuter E[True U $\lnot$ fermé] afin de déterminer les noeuds ayant le label "AF $\lnot$ fermé" et enfin pouvoir déterminer quels noeuds présentent le label "AG fermé".\\
 \noindent Dans notre cas, nous nous rendons compte qu'aucun état ne présente le label AG fermé. Effectivement, il n'existe pas d'état tel que dans tous les chemins partant de celui-ci, "fermé" apparait dans tous les états futures.\\
 
-\noindent En plus de l'implémentation sur le modèle Kripke, il est également possible d'effectuer ces opérations sur une structure d'arbre dont on a parlé précédemment. Mais il est à noté que la taille de l'arbre ne peut pas être infinie en mémoire et qu'il se peut donc qu'un système présente une erreur sans que l'algorithme ne le détecte. \\
+\noindent En plus de l'implémentation sur le modèle Kripke, il est également possible d'effectuer ces opérations sur une structure d'arbre dont on a parlé précédemment. Mais il est à noter que la taille de l'arbre ne peut pas être infinie en mémoire et qu'il se peut donc qu'un système présente une erreur sans que l'algorithme ne le détecte. \\
 
 \noindent Le code source est disponnible sur \\ \url{https://github.com/PqMichael/CTL-Model-Checking}
 
@@ -355,9 +355,9 @@ Dans le cadre de ce travail, il a été choisi de hardcoder les formules CTL afi
 
 Nous avons maintenant idée de ce qu'est le Model Checking et de tout ce qu'il permet, en plus de quoi nous avons ajouté notre propre implémentation, même si celle-ci s'avère incomplète. Il serait donc intéressant de continuer celle-ci afin de pouvoir vérifier d'avantage de propriétés sur divers modèles. \\
 
-\noindent Attention cependant, le modèle checking CTL présente un inconvénient : le nombre d'état et variables du système. En effet, l'augmentation de variables dans un système implique une augmentation exponentielle de la taille du modèle, compliquant ainsi la vérification du modèle.
+\noindent Attention cependant, le modèle checking CTL présente un inconvénient : le nombre d'états et variables du système. En effet, l'augmentation de variables dans un système implique une augmentation exponentielle de la taille du modèle, compliquant ainsi la vérification du modèle.
 Plusieurs recherches à ce sujet ont déjà été menées (dans \cite{a2} par exemple) et sont encore menées comme dit dans \cite{a1}.\\
-D'avantages de problèmes sont cités par \citep{a3}.
+D'autres problèmes concernant le \textit{Model Checking CTL} sont cités par \citep{a3}.
 
 \bibliography{references}{}
 \bibliographystyle{plain}
